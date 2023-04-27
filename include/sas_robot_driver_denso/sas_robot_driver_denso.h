@@ -31,7 +31,8 @@
 
 #include <dqrobotics/DQ.h>
 
-#include <sas_robot_driver/sas_robot_driver.h>
+#include <sas_core/sas_robot_driver.hpp>
+#include <sas_robot_driver_denso/sas_robot_driver_denso.h>
 
 using namespace DQ_robotics;
 using namespace Eigen;

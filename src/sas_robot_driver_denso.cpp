@@ -23,7 +23,9 @@
 # ################################################################*/
 
 #include "sas_robot_driver_denso/sas_robot_driver_denso.h"
-#include "sas_clock/sas_clock.h"
+
+#include <sas_core/sas_clock.hpp>
+
 #include <dqrobotics/utils/DQ_Math.h>
 #include "../../src/sas_driver_bcap.h"
 
@@ -219,27 +221,27 @@ void RobotDriverDenso::connect()
 void RobotDriverDenso::deinitialize()
 {
     //10 ms clock
-    std::unique_ptr<sas::Clock> clock(new sas::Clock(10000000));
-    clock->init();
+    sas::Clock clock(0.01);
+    clock.init();
     _slave_mode_off();
-    clock->blocking_sleep_seconds(3.);
+    clock.blocking_sleep_seconds(3.);
     _set_speed(1.,1.,1.);
-    clock->blocking_sleep_seconds(3.);
+    clock.blocking_sleep_seconds(3.);
     _motor_off();
-    clock->blocking_sleep_seconds(3.);
+    clock.blocking_sleep_seconds(3.);
 }
 
 void RobotDriverDenso::initialize()
 {
     //10 ms clock
-    std::unique_ptr<sas::Clock> clock(new sas::Clock(10000000));
-    clock->init();
+    sas::Clock clock(0.01);
+    clock.init();
     _motor_on();
-    clock->safe_sleep_seconds(6., break_loops_);
+    clock.safe_sleep_seconds(6., break_loops_);
     _set_speed(configuration_.speed, configuration_.speed, configuration_.speed);
-    clock->safe_sleep_seconds(6., break_loops_);
+    clock.safe_sleep_seconds(6., break_loops_);
     _slave_mode_on(sas::RobotDriverDenso::SLAVE_MODE_JOINT_CONTROL);
-    clock->safe_sleep_seconds(6., break_loops_);
+    clock.safe_sleep_seconds(6., break_loops_);
 }
 
 void RobotDriverDenso::_connect()
